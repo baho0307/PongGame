@@ -69,26 +69,29 @@ void Input(Vector2& dir)
 
 }
 
-int PlayerMovement(char* map, Vector2& v) 
+int PlayerMovement(char* map, Vector2& v, int playerSize = 1) 
 {
     int pPos = FindElement(map, 'P');
-    if (map[pPos + v.x + (v.y * map[0])] == '0') 
+    if ((map[pPos + v.x + (v.y * map[0])] == '0' || map[pPos + v.x + (v.y * map[0])] == 'P') && ( map[pPos + v.x + (v.y * map[0]) + playerSize - 1] == '0'|| map[pPos + v.x + (v.y * map[0]) + playerSize - 1] == 'P'))
     {
-        map[pPos] = '0';
-        map[pPos + v.x + (v.y * map[0])] = 'P';
-        v.x = 0;
-        v.y = 0;
+        for (int i = 0; i < playerSize; i++)
+        {
+            map[pPos + i] = '0';
+            map[pPos + v.x + (v.y * map[0]) + i] = 'P';
+        }
     }
+    v.x = 0;
+    v.y = 0;
     return pPos + v.x + (v.y * map[0]);
 }
 
-int BallMovement(char* map, Vector2& v)
+int BallMovement(char* map, Vector2& v,Vector2 pV)
 {
     int bPos = FindElement(map, 'B');
     int nextPosX = bPos + v.x;
     int nextPosY = bPos + (v.y * map[0]);
 
-    if (((map[nextPosX] == '0' || v.x == 0) && (map[nextPosY] == '0' || v.y == 0) && map[nextPosX + nextPosY - bPos] == '0'))
+    if (((map[nextPosX] == '0' || v.x == 0) && (map[nextPosY] == '0' || v.y == 0) && (map[nextPosX + nextPosY - bPos] == '0' || map[nextPosX + nextPosY - bPos] == 'B')))
     {
         map[bPos] = '0';
         map[nextPosX + nextPosY - bPos] = 'B';
@@ -107,14 +110,21 @@ int BallMovement(char* map, Vector2& v)
             v.y *= -1;
             if (map[nextPosX + nextPosY - bPos] == '=')
                 map[nextPosX + nextPosY - bPos] = '0';
+            else if (map[nextPosX + nextPosY - bPos] == 'P')
+                v.x += pV.x;
         }
             
         if (map[nextPosX] == '=')
             map[nextPosX] = '0';
+        else if (map[nextPosX] == 'P')
+            v.x += pV.x;
 
         if (map[nextPosY] == '=')
             map[nextPosY] = '0';
-        BallMovement(map, v);
+        else if (map[nextPosY] == 'P')
+            v.x += pV.x;
+
+        BallMovement(map, v, pV);
     }
 
     return bPos;
@@ -151,7 +161,7 @@ int main()
                           '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1',
                           '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1',
                           '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1',
-                          '1', '0', '0', '0', '0', '0', 'P', '0', '0', '0', '0', '0', '0', '1' };
+                          '1', '0', '0', '0', '0', '0', 'P', 'P','0', '0', '0', '0', '0',  '1' };
 
     char GUImap[512];
     
@@ -161,12 +171,14 @@ int main()
         
             
         
-        GenerateMap(gameMap, GUImap);
-        if(time  % 40000 == 0)
+        
+        if(time  % 200000 == 0)
         {
+            GenerateMap(gameMap, GUImap);
             Input(dir);
-            PlayerMovement(gameMap, dir);
-            gm = GameMode(BallMovement(gameMap, ballV), gameMap[0], DrawMap(GUImap) );
+            gm = GameMode(BallMovement(gameMap, ballV, dir), gameMap[0], DrawMap(GUImap) );
+            PlayerMovement(gameMap, dir,2);
+            std::cout << dir.x;
         }
         
 
