@@ -1,0 +1,2 @@
+C:\Users\Administrator\source\repos\PongGame\x64\Debug\PongGame.exe
+E:\Projeler\Yazılım\C++\PongGame\x64\Debug\PongGame.exe
