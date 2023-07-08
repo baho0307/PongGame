@@ -1,0 +1,11 @@
+﻿  PongGame.cpp
+E:\Projeler\Yazılım\C++\PongGame\PongGame.cpp(106,23): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
+  Screen.cpp
+E:\Projeler\Yazılım\C++\PongGame\src\Screen\Screen.cpp(11,9): error C2511: 'Screen::Screen(std::vector<int,std::allocator<int>>,int,int)': overloaded member function not found in 'Screen'
+E:\Projeler\Yazılım\C++\PongGame\src\Screen\Screen.h(8,7): message : see declaration of 'Screen'
+E:\Projeler\Yazılım\C++\PongGame\src\Screen\Screen.cpp(13,2): error C2671: 'Screen::{ctor}': static member functions do not have 'this' pointers
+E:\Projeler\Yazılım\C++\PongGame\src\Screen\Screen.cpp(14,2): error C2597: illegal reference to non-static member 'Screen::scrBuffer'
+E:\Projeler\Yazılım\C++\PongGame\src\Screen\Screen.h(17,16): message : see declaration of 'Screen::scrBuffer'
+E:\Projeler\Yazılım\C++\PongGame\src\Screen\Screen.cpp(15,2): error C2671: 'Screen::{ctor}': static member functions do not have 'this' pointers
+E:\Projeler\Yazılım\C++\PongGame\src\Screen\Screen.cpp(16,2): error C2671: 'Screen::{ctor}': static member functions do not have 'this' pointers
+  Generating Code...
